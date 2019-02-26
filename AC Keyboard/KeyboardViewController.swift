@@ -12,6 +12,21 @@ class KeyboardViewController: UIInputViewController {
 
     @IBOutlet var nextKeyboardButton: UIButton!
 
+    private let LATIN_SMALL_LETTER_AE = "æ"
+    private let LATIN_SMALL_LETTER_OPEN_E = "ɛ"
+    private let LATIN_LETTER_SMALL_CAPITAL_I = "ɪ"
+    private let LATIN_SMALL_LETTER_I = "i"
+    private let SMALL_LETTER_OPEN_O = "ɔ"
+    private let SMALL_LETTER_ALPHA = "ɑ"
+    private let SMALL_LETTER_TURNED_ALPHA = "ɒ"
+    private let TURNED_V = "ʌ"
+    private let REVERSED_OPEN_E = "ɜ"
+    private let LATIN_SMALL_LETTER_SCHWA = "ə"
+    private let MODIFIER_LETTER_TRIANGULAR_COLON = "ː"
+    private let LATIN_SMALL_LETTER_UPSILON = "ʊ"
+    private let COMBINING_GRAVE_ACCENT = "◌̀"
+    private let COMBINING_ACUTE_ACCENT = "◌́"
+    
     var deleteBtn = UIButton(type: .system)
     //var keyboardView: UIView
 
