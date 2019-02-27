@@ -12,6 +12,21 @@ class KeyboardViewController: UIInputViewController {
 
     @IBOutlet var nextKeyboardButton: UIButton!
 
+    //  i   ɪ   u   ʊ   ː   ◌̀  ◌́
+    //  e   ə   ɛ   ɜ
+    //  æ   ʌ   ɑ   ɒ   o   ɔ
+    //  p   b   t   d   ʧ   ʤ   k   g
+    //  f   v   θ   ð   s   z    ʃ  ʒ
+    //  ↑   m   n   ŋ   h   l   r   w   j
+    //  🌐  <sp>    <cr>    <bs>
+
+    // シフトした画面
+    //  1   2   3   4   5   6   7   8   9   0
+    //  +   -   /   ¥   :   ;   (   )   &
+    //  .   ,   ?   !   '   <bs>
+    //  🌐  ↑   <sp>    <cr>
+
+    
     private let LATIN_SMALL_LETTER_AE = "æ"
     private let LATIN_SMALL_LETTER_OPEN_E = "ɛ"
     private let LATIN_LETTER_SMALL_CAPITAL_I = "ɪ"
@@ -53,39 +68,50 @@ class KeyboardViewController: UIInputViewController {
         
         //self.nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         //self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-
-        // for AC Custom Keyboard
-        let buttonTitles = ["Q", "W", "E", "R", "T", "Y"]
-        let buttons = createButtons(titles: buttonTitles)
-        let topRow = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 40))
-
-        for button in buttons {
-            topRow.addSubview(button)
-        }
-        
-        self.view.addSubview(topRow)
-        
-        addConstraints(buttons: buttons, containingView: topRow)
-
-        self.deleteBtn.translatesAutoresizingMaskIntoConstraints = false
-        deleteBtn.addTarget(self, action: #selector(self.deleteDown), for: .touchDown)
-        deleteBtn.addTarget(self, action: #selector(self.deleteUp), for: [.touchUpInside, .touchUpOutside])
-        self.view.addSubview(self.deleteBtn)
-        
         createInterface()
     }
 
     func createInterface() {
-        // load the nib file
-        //var calculatorNib = UINib(nibName: "Calculator", bundle: nil)
-        // instantiate the view
-        //keyboardView = calculatorNib.instantiate(withOwner: self, options: nil)[0] as! UIView
+        // for AC Custom Keyboard
+        let buttonTitles = ["Q", "W", "E", "R", "T", "Y"]
+        let buttons = createButtons(titles: buttonTitles)
+        let topRow = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 40))
         
-        // add the interface to the main view
-        //view.addSubview(keyboardView)
+        for button in buttons {
+            topRow.addSubview(button)
+        }
+        self.view.addSubview(topRow)
         
-        // copy the background color
-        //view.backgroundColor = keyboardView.backgroundColor
+        addConstraints(buttons: buttons, containingView: topRow)
+        
+        self.deleteBtn.translatesAutoresizingMaskIntoConstraints = false
+        deleteBtn.addTarget(self, action: #selector(self.deleteDown), for: .touchDown)
+        deleteBtn.addTarget(self, action: #selector(self.deleteUp), for: [.touchUpInside, .touchUpOutside])
+        //self.view.addSubview(self.deleteBtn)
+
+        // StackViewをつくる
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .center
+        stack.distribution = .fill
+        stack.spacing = 8
+
+        // StackViewに入れるサブビュー、部品を作る
+        let label = UILabel()
+        label.text = "ラベル"
+        label.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.headline)
+        //label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+
+        let deleteButton = UIButton(type: UIButton.ButtonType.roundedRect)
+        deleteButton.setTitle("ボタン", for: UIControl.State.normal)
+        deleteButton.addTarget(self, action: Selector(("pushButton:")), for: UIControl.Event.touchUpInside)
+
+        // StackViewにサブビューを追加
+        stack.addArrangedSubview(label)
+        stack.addArrangedSubview(deleteButton)
+
+        // StackViewを画面など好きなところに
+        self.view.addSubview(stack)
     }
 
     func createButtons(titles: [String]) -> [UIButton] {
@@ -102,7 +128,6 @@ class KeyboardViewController: UIInputViewController {
 
             buttons.append(button)
         }
-        
         return buttons
     }
 
