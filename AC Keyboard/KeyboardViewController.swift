@@ -66,48 +66,71 @@ class KeyboardViewController: UIInputViewController {
         
         //self.nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         //self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+
         createInterface()
+
+        let height: CGFloat = 200.0
+        let constraintH = NSLayoutConstraint(item: self.view, attribute: .height,
+                                             relatedBy: .equal, toItem: nil, attribute: .notAnAttribute,
+                                             multiplier: 1.0, constant: height)
+        constraintH.priority = UILayoutPriority(rawValue: 990)
+        self.view.addConstraints([constraintH])
     }
 
     func createInterface() {
-        tryStackView2()
+        let mainStackView = UIStackView(frame: .zero)
+        mainStackView.axis = .vertical
+        mainStackView.alignment = .center
+        mainStackView.distribution = .fill
+        mainStackView.spacing = 5
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(mainStackView)
+
+        // 1行目
+        let stackView1 = createHolizontalStackView()
+        for button in createButtons(titles: ["i", "ɪ", "e", "ə", "ɛ", "ɜ", "u", "ʊ", "o", "ɔ"]) {
+            stackView1.addArrangedSubview(button)
+        }
+        mainStackView.addArrangedSubview(stackView1)
+
+        // 2行目
+        let stackView2 = createHolizontalStackView()
+        for button in createButtons(titles: ["æ", "ʌ", "ɑ", "ɒ", "p", "b", "t", "d", "ʧ", "ʤ"]) {
+            stackView2.addArrangedSubview(button)
+        }
+        mainStackView.addArrangedSubview(stackView2)
+
+        // 3行目
+        let stackView3 = createHolizontalStackView()
+        for button in createButtons(titles: ["f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ", "k", "g"]) {
+            stackView3.addArrangedSubview(button)
+        }
+        mainStackView.addArrangedSubview(stackView3)
+
+        // 4行目
+        let stackView4 = createHolizontalStackView()
+        for button in createButtons(titles: ["m", "n", "ŋ", "h", "l", "r", "w", "j"]) {
+            stackView4.addArrangedSubview(button)
+        }
+        mainStackView.addArrangedSubview(stackView4)
+
+        // 5行目
+        let stackView5 = createHolizontalStackView()
+        for button in createButtons(titles: ["↑", "🌐", "<sp>", "ː", "◌̀", "◌́", "<cr>", "<bs>"]) {
+            stackView5.addArrangedSubview(button)
+        }
+        mainStackView.addArrangedSubview(stackView5)
+
     }
 
-    func tryCurrent() {
-        //let view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
-        //view.backgroundColor = UIColor.white
-        
-        /// Instantiate StackView and configure it
+    func createHolizontalStackView() -> UIStackView {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fill
-        stackView.spacing = 20
+        stackView.spacing = 5
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.view.addSubview(stackView)
-        //view.addSubview(stackView)
-        
-        /// Setup StackView's constraints to its superview
-        view.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
-        view.bottomAnchor.constraint(equalTo: stackView.bottomAnchor).isActive = true
-        view.leadingAnchor.constraint(equalTo: stackView.leadingAnchor).isActive = true
-        view.trailingAnchor.constraint(equalTo: stackView.trailingAnchor).isActive = true
-        
-        /// Add subviews
-        let switchh = UISwitch()
-        switchh.isOn = true
-        switchh.backgroundColor = UIColor.cyan
-        stackView.addArrangedSubview(switchh)
-        
-        let label = UILabel()
-        label.backgroundColor = UIColor.magenta
-        label.text = "label"
-        stackView.addArrangedSubview(label)
-        
-        let button = UIButton(type: .infoDark)
-        button.backgroundColor = UIColor.yellow
-        stackView.addArrangedSubview(button)
+        return stackView
     }
 
     func tryStackView0() {
@@ -129,54 +152,6 @@ class KeyboardViewController: UIInputViewController {
         //self.view.addSubview(self.deleteBtn)
     }
     
-    func tryStackView1() {
-        // StackViewをつくる
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.alignment = .center
-        stack.distribution = .fill
-        stack.spacing = 8
-        
-        // StackViewに入れるサブビュー、部品を作る
-        //let label = UILabel()
-        //label.text = "ラベル"
-        //label.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.headline)
-        //label.translatesAutoresizingMaskIntoConstraints = false
-        
-        //let deleteButton = UIButton(type: UIButton.ButtonType.roundedRect)
-        //deleteButton.setTitle("ボタン", for: UIControl.State.normal)
-        //deleteButton.addTarget(self, action: Selector(("pushButton:")), for: UIControl.Event.touchUpInside)
-        //deleteButton.translatesAutoresizingMaskIntoConstraints = false
-
-        // StackViewにサブビューを追加
-        //stack.addArrangedSubview(label)
-        //stack.addArrangedSubview(deleteButton)
-
-        // StackViewを画面など好きなところに
-        self.view.addSubview(stack)
-    }
-
-    func tryStackView2() {
-        // StackViewをつくる
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.alignment = .center
-        stack.distribution = .fill
-        stack.spacing = 8
-        stack.translatesAutoresizingMaskIntoConstraints = false
-
-        // StackViewに入れるサブビュー、部品を作る
-        let buttonTitles = ["Q", "W", "E", "R", "T", "Y", "E", "T", "O", "H"]
-        let buttons = createButtons(titles: buttonTitles)
-        
-        // StackViewにサブビューを追加
-        for button in buttons {
-            stack.addArrangedSubview(button)
-        }
-        // StackViewを画面など好きなところに
-        self.view.addSubview(stack)
-    }
-
     func createButtons(titles: [String]) -> [UIButton] {
         var buttons = [UIButton]()
         for title in titles {
@@ -201,43 +176,6 @@ class KeyboardViewController: UIInputViewController {
         
         return button
     }
-
-    //func addConstraints(buttons: [UIButton], containingView: UIView){
-    //
-    //    for (index, button) in zip(buttons.indices, buttons) {
-    //
-    //        let topConstraint = NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal, toItem: containingView, attribute: .top, multiplier: 1.0, constant: 1)
-    //
-    //        let bottomConstraint = NSLayoutConstraint(item: button, attribute: .bottom, relatedBy: .equal, toItem: containingView, attribute: .bottom, multiplier: 1.0, constant: -1)
-    //
-    //        var leftConstraint : NSLayoutConstraint!
-    //        if index == 0 {
-    //
-    //            leftConstraint = NSLayoutConstraint(item: button, attribute: .left, relatedBy: .equal, toItem: containingView, attribute: .left, multiplier: 1.0, constant: 1)
-    //
-    //        } else {
-    //
-    //            leftConstraint = NSLayoutConstraint(item: button, attribute: .left, relatedBy: .equal, toItem: buttons[index-1], attribute: .right, multiplier: 1.0, constant: 1)
-    //
-    //            let widthConstraint = NSLayoutConstraint(item: buttons[0], attribute: .width, relatedBy: .equal, toItem: button, attribute: .width, multiplier: 1.0, constant: 0)
-    //
-    //            containingView.addConstraint(widthConstraint)
-    //        }
-    //
-    //        var rightConstraint : NSLayoutConstraint!
-    //        if index == buttons.count - 1 {
-    //
-    //            rightConstraint = NSLayoutConstraint(item: button, attribute: .right, relatedBy: .equal, toItem: containingView, attribute: .right, multiplier: 1.0, constant: -1)
-    //
-    //        } else {
-    //
-    //            rightConstraint = NSLayoutConstraint(item: button, attribute: .right, relatedBy: .equal, toItem: buttons[index+1], attribute: .left, multiplier: 1.0, constant: -1)
-    //
-    //        }
-    //
-    //        containingView.addConstraints([topConstraint, bottomConstraint, rightConstraint, leftConstraint])
-    //    }
-    //}
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
